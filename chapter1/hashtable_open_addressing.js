@@ -34,4 +34,43 @@ class HashTable {
 
     console.error("HashTable is full. Unable to insert")
   }
+
+  search(key) {
+    let index = this.hash(key)
+    let tries = 0
+
+    while (tries < this.hash(key)) {
+      const item = this.buckets[index]
+
+      if (item && item.key === key) {
+        return item.value
+      }
+
+      // Linear probing: move to the next position in the table
+      index = (index + 1) % this.size
+      tries++
+    }
+
+    return null
+  }
+
+  delete(key) {
+    let index = this.hash(key)
+    let tries = 0
+
+    while (tries < this.size) {
+      const item = this.buckets[index]
+
+      if (item && item.key === key) {
+        this.buckets[index] = null // Mark the bucket as deleted
+        return
+      }
+
+      // Linear probing: move to the next position in the table
+      index = (index + 1) % this.size
+      tries++
+    }
+
+    console.error("Key not found.")
+  }
 }
